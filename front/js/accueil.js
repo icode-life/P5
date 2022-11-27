@@ -1,28 +1,37 @@
-function getKanaps() {
-  fetch("http://localhost:3000/api/products")
-  .then(function(res) {
-    if (res.ok) {
-      return res.json();
+async function getKanaps() {
+  return fetch("http://localhost:3000/api/products")
+  .then(function(resultSet) {
+    if (resultSet.ok) {
+      return resultSet.json();
     }
   })
   .then(function(value) {
-    document
-        .getElementById("items")
-        .innerText = value.queryString.greetings;
+   return value;
   })
   .catch(function(err) {
-    // Une erreur est survenue
+    console.log(err);
   });
 }
 
-document
-  .getElementById("ask-hello")
-  .addEventListener("click", askHello);
+function displayKanaps(products){
+    for (let product of products){
+        console.log(product);
+ //       document.getElementById("").innerHTML = 
+    }
+}
 
+const products = await getKanaps();
+displayKanaps(products);
 
-/**
- * onload:
- * 1) fetch les données via l'API à stocker dans un array ou une collection
- * 2) traiter la collection pour la rendre utilisable JSON -> JS
- * 3) boucle for (collection.length-1) pour insertion dans html
- */
+/** 
+resultSet = array of maps. Here's Array[0]
+{
+    "colors":["Blue","White","Black"],
+    "_id":"107fb5b75607497b96722bda5b504926",
+    "name":"Kanap Sinopé",
+    "price":1849,
+    "imageUrl":"http://localhost:3000/images/kanap01.jpeg",
+    "description":"Excepteur sint occaecat cupidatat non proident.",
+    "altTxt":"Photo d'un canapé bleu, deux places"
+}
+*/

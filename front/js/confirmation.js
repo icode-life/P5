@@ -1,3 +1,3 @@
 /**
- * envoi confirmation avec numéro de commande
+ * envoi confirmation avec numéro de cmd
  */
