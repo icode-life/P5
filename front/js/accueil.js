@@ -24,15 +24,3 @@ function displayKanaps(products){
 const products = await getKanaps();
 displayKanaps(products);
 
-/** 
-resultSet = array of maps. Here's Array[0]
-{
-    "colors":["Blue","White","Black"],
-    "_id":"107fb5b75607497b96722bda5b504926",
-    "name":"Kanap Sinopé",
-    "price":1849,
-    "imageUrl":"http://localhost:3000/images/kanap01.jpeg",
-    "description":"Excepteur sint occaecat cupidatat non proident.",
-    "altTxt":"Photo d'un canapé bleu, deux places"
-}
-*/
