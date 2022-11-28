@@ -5,9 +5,9 @@ async function getKanaps() {
       return resultSet.json();
     }
   })
-  .then(function(value) {
+  /*.then(function(value) {
    return value;
-  })
+  })*/
   .catch(function(err) {
     console.log(err);
   });
@@ -15,8 +15,9 @@ async function getKanaps() {
 
 function displayKanaps(products){
     for (let product of products){
-        console.log(product);
- //       document.getElementById("").innerHTML = 
+        console.log(product);    
+        console.log(product._id);
+        document.getElementById("items").innerHTML += `<a href="./product.html?id=${product._id}"><article><img src="${product.imageUrl}" alt="${product.altTxt}"><h3 class="productName">${product.name}</h3><p class="productDescription">${product.description}</p></article></a>`;
     }
 }
 
