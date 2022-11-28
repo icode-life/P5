@@ -41,6 +41,8 @@ function displayProductSpecs(product){
     document.getElementById("price").innerHTML = product.price;
     document.getElementById("description").innerHTML = product.description;
     for (let color of product.colors){
+        
+        
         let option = document.createElement('option');
         option.text = `${color}`;
         option.value = `${color}`;
