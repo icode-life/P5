@@ -26,8 +26,8 @@ function displayKanaps(products){
       itemTitle.classList.add(`productName`);
       
       //fill-ins
-      //itemTitle.textContent(`${product.name}`);
-      //parag.textContent(`${product.description}`);
+      itemTitle.textContent = product.name;
+      parag.textContent = product.description;
 
       //nesting
       clicableItem.appendChild(article);
@@ -35,11 +35,8 @@ function displayKanaps(products){
       article.appendChild(itemTitle);
       article.appendChild(parag);
 
-      console.log(clicableItem);
-
       //import into DOM
-
-        //document.getElementById("items").innerHTML += `<a href="./product.html?id=${product._id}"><article><img src="${product.imageUrl}" alt="${product.altTxt}"><h3 class="productName">${product.name}</h3><p class="productDescription">${product.description}</p></article></a>`;
+      document.getElementById('items').appendChild(clicableItem);
     }
 }
 
