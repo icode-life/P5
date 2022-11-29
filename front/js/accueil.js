@@ -5,9 +5,6 @@ async function getKanaps() {
       return resultSet.json();
     }
   })
-  /*.then(function(value) {
-   return value;
-  })*/
   .catch(function(err) {
     console.log(err);
   });
@@ -15,9 +12,34 @@ async function getKanaps() {
 
 function displayKanaps(products){
     for (let product of products){
-        console.log(product);    
-        console.log(product._id);
-        document.getElementById("items").innerHTML += `<a href="./product.html?id=${product._id}"><article><img src="${product.imageUrl}" alt="${product.altTxt}"><h3 class="productName">${product.name}</h3><p class="productDescription">${product.description}</p></article></a>`;
+      //tags creation
+      const clicableItem = document.createElement('a');
+      const article = document.createElement('article');
+      const image = document.createElement('img');
+      const itemTitle = document.createElement('h3');
+      const parag = document.createElement('p');
+
+      //attributes and class setting
+      image.setAttribute(`src`, `${product.imageUrl}`);
+      image.setAttribute(`alt`, `${product.altTxt}`);
+      clicableItem.setAttribute(`href`, `./product.html?id=${product._id}`);
+      itemTitle.classList.add(`productName`);
+      
+      //fill-ins
+      //itemTitle.textContent(`${product.name}`);
+      //parag.textContent(`${product.description}`);
+
+      //nesting
+      clicableItem.appendChild(article);
+      article.appendChild(image);
+      article.appendChild(itemTitle);
+      article.appendChild(parag);
+
+      console.log(clicableItem);
+
+      //import into DOM
+
+        //document.getElementById("items").innerHTML += `<a href="./product.html?id=${product._id}"><article><img src="${product.imageUrl}" alt="${product.altTxt}"><h3 class="productName">${product.name}</h3><p class="productDescription">${product.description}</p></article></a>`;
     }
 }
 

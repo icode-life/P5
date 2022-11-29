@@ -37,22 +37,15 @@ async function getProduct(id) {
 function displayProductSpecs(product){
     document.getElementsByClassName("item__img").innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}"></img>`;
     console.log(product.imageUrl);
-    document.getElementById("title").innerHTML = product.name;
-    document.getElementById("price").innerHTML = product.price;
-    document.getElementById("description").innerHTML = product.description;
+    document.getElementById("title").textContent = product.name;
+    document.getElementById("price").textContent = product.price;
+    document.getElementById("description").textContent = product.description;
     for (let color of product.colors){
-        
-        
+        const select = document.getElementById("colors");
         let option = document.createElement('option');
         option.text = `${color}`;
         option.value = `${color}`;
-        let select = document.getElementsByTagName("select");
         select.appendChild(option);
-        
-        
-        //document.getElementsByTagName("select").innerHTML += `<option value="${color}">${color}</option>`;
-        let test = document.getElementsByTagName("select");
-        console.log(test);
     }
 }
 
