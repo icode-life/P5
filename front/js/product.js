@@ -1,20 +1,6 @@
 /**
- * 1) fetch product detail via API sur base de l'ID
  * 2) onclick -> ajouter au panier
  */
-
-/** 
-resultSet = array of maps. Here's Array[0]
-{
-    "colors":["Blue","White","Black"],
-    "_id":"107fb5b75607497b96722bda5b504926",
-    "name":"Kanap Sinopé",
-    "price":1849,
-    "imageUrl":"http://localhost:3000/images/kanap01.jpeg",
-    "description":"Excepteur sint occaecat cupidatat non proident.",
-    "altTxt":"Photo d'un canapé bleu, deux places"
-}
-*/
 
 const url = window.location.search;
 const params = new URLSearchParams(url);
@@ -35,14 +21,20 @@ async function getProduct(id) {
 }
 
 function displayProductSpecs(product){
-    document.getElementsByClassName("item__img").innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}"></img>`;
-    console.log(product.imageUrl);
+    //fetch le node par une autre méthode car classname ne renvoie pas l'élément directement.
+    //document.querySelector renvoie bien le node
+    const picDiv = document.querySelector(".item__img");
+    const pic = document.createElement('img');
+    pic.setAttribute('src', `${product.imageUrl}`);
+    pic.setAttribute('alt', `${product.altTxt}`);
+    picDiv.appendChild(pic);
+
     document.getElementById("title").textContent = product.name;
     document.getElementById("price").textContent = product.price;
     document.getElementById("description").textContent = product.description;
     for (let color of product.colors){
         const select = document.getElementById("colors");
-        let option = document.createElement('option');
+        const option = document.createElement('option');
         option.text = `${color}`;
         option.value = `${color}`;
         select.appendChild(option);
