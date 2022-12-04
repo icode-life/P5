@@ -1,7 +1,3 @@
-/**
- * 2) onclick -> ajouter au panier
- */
-
 //récupération de l'ID du produit àpd l'url
 const url = window.location.search;
 const params = new URLSearchParams(url);
@@ -55,10 +51,12 @@ let quantitySelected;
 let colorOption = document.getElementById('colors');
 let colorSelected;
 
-function quantitySetup(event){quantitySelected = quantity.value; console.log(quantitySelected);}
-function colorSetup(){}
+function quantitySetup(){quantitySelected = quantity.value; console.log(quantitySelected);}
+function colorSetup(){colorSelected = colorOption.value; console.log(colorSelected);}
 
   //ajout des listeners
 quantity.addEventListener('change', quantitySetup);
-//  colorOption.addEventListener('change', );
+colorOption.addEventListener('change', colorSetup);
 
+//setTimeout(() => {  console.log(quantitySelected); }, 5000);
+//setTimeout(() => {  console.log(colorSelected); }, 5000);
