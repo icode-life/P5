@@ -2,16 +2,16 @@
  * 2) onclick -> ajouter au panier
  */
 
+//récupération de l'ID du produit àpd l'url
 const url = window.location.search;
 const params = new URLSearchParams(url);
 const productId = params.get('id');
 
+//uen fois l'ID récupéré, on va interroger l'API à nouveau pour aller chercher les détails du produit à afficher
 async function getProduct(id) {
-    console.log(id);
     return fetch(`http://localhost:3000/api/products/${id}`)
     .then(function(result) {
     if (result.ok) {
-        console.log(result);
       return result.json();
     }
   })
@@ -20,10 +20,11 @@ async function getProduct(id) {
   });
 }
 
+//cette fonction affiche les éléments du produits en générant le html nécessaire
 function displayProductSpecs(product){
     //fetch le node par une autre méthode car classname ne renvoie pas l'élément directement.
     //document.querySelector renvoie bien le node
-    const picDiv = document.querySelector(".item__img");
+    const picDiv = document.querySelector(".item__img"); //Attention il faut conserver le '.' de la classe avec querySelector
     const pic = document.createElement('img');
     pic.setAttribute('src', `${product.imageUrl}`);
     pic.setAttribute('alt', `${product.altTxt}`);
@@ -37,9 +38,27 @@ function displayProductSpecs(product){
         const option = document.createElement('option');
         option.text = `${color}`;
         option.value = `${color}`;
+        option.id = 'color';
         select.appendChild(option);
     }
 }
 
+
+//différents appels aux fonctions pour garnir la page
 let product = await getProduct(productId);//ATTENTION à bien renseigner un type="module" dans le script html
 displayProductSpecs(product);
+
+//récupération de l'input de l'utilisateur
+  //definitions de variables et fonction eventHandler
+let quantity = document.getElementById('quantity');
+let quantitySelected;
+let colorOption = document.getElementById('colors');
+let colorSelected;
+
+function quantitySetup(event){quantitySelected = quantity.value; console.log(quantitySelected);}
+function colorSetup(){}
+
+  //ajout des listeners
+quantity.addEventListener('change', quantitySetup);
+//  colorOption.addEventListener('change', );
+
