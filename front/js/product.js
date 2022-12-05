@@ -72,16 +72,24 @@ function updateCart(){
   qty: quantitySelected,
   color: colorSelected
   };
+
+  let doublon = 0; //pour checker si un article est déjà présent dans le localStorage
+  let i = 1; //pour incrémenter un indice de stockage dans localStorage
+  
   //check si doublon avant insertion panier
   for( let item of localStorage){
     const itemJson = JSON.parse(item);
     if (itemJson.id == selection.id && itemJson.color == selection.color){
-      alert('article déjà présent dans le panier!');
-    } else {
-        article = JSON.stringify(selection);
-        localStorage.setItem("obj",article);
-    }   
-}
+      doublon ++;
+    } 
+    if (!doublon){
+      article = JSON.stringify(selection);
+      localStorage.setItem(i, article);
+      i++;
+    }else{
+      alert(`L'article choisi est déjà présent dans votre panier, vous venez d'ajouter ${doublon} exemplaire au panier`);
+    }     
+  }
 }
 
 // check à refaire car il ne suffit pas qu'uen comparaison ne match pas.
