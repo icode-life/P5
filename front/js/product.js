@@ -51,8 +51,8 @@ let quantitySelected;
 let colorOption = document.getElementById('colors');
 let colorSelected;
 
-function quantitySetup(){quantitySelected = quantity.value; console.log(quantitySelected);}
-function colorSetup(){colorSelected = colorOption.value; console.log(colorSelected);}
+function quantitySetup(){quantitySelected = quantity.value;}
+function colorSetup(){colorSelected = colorOption.value;}
 
   //ajout des listeners
 quantity.addEventListener('change', quantitySetup);
@@ -60,3 +60,32 @@ colorOption.addEventListener('change', colorSetup);
 
 //setTimeout(() => {  console.log(quantitySelected); }, 5000);
 //setTimeout(() => {  console.log(colorSelected); }, 5000);
+
+//creation du panier en localStorage
+const submit = document.getElementById('addToCart');
+submit.addEventListener('click', updateCart);
+
+function updateCart(){
+  //creation de l'objet souhaité
+  const selection = {
+  id: productId,
+  qty: quantitySelected,
+  color: colorSelected
+  };
+  //check si doublon avant insertion panier
+  for( let item of localStorage){
+    const itemJson = JSON.parse(item);
+    if (itemJson.id == selection.id && itemJson.color == selection.color){
+      alert('article déjà présent dans le panier!');
+    } else {
+        article = JSON.stringify(selection);
+        localStorage.setItem("obj",article);
+    }   
+}
+}
+
+// check à refaire car il ne suffit pas qu'uen comparaison ne match pas.
+// il faut qu'il n'y ait aucune occurence sur tt le localStorage
+
+
+
