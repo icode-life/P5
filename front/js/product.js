@@ -65,6 +65,8 @@ colorOption.addEventListener('change', colorSetup);
 const submit = document.getElementById('addToCart');
 submit.addEventListener('click', updateCart);
 
+let i = 1; //pour incrémenter un indice de stockage dans localStorage
+
 function updateCart(){
   //creation de l'objet souhaité
   const selection = {
@@ -74,26 +76,46 @@ function updateCart(){
   };
 
   let doublon = 0; //pour checker si un article est déjà présent dans le localStorage
-  let i = 1; //pour incrémenter un indice de stockage dans localStorage
+  //valeur reset à zéro à chaque appel de updateCart
   
   //check si doublon avant insertion panier
-  for( let item of localStorage){
-    const itemJson = JSON.parse(item);
-    if (itemJson.id == selection.id && itemJson.color == selection.color){
-      doublon ++;
-    } 
-    if (!doublon){
-      article = JSON.stringify(selection);
+  //récupération du local storage dans un array
+  let currentStorage = [];
+  for (let i = 0; i<localStorage.length; i++){
+    currentStorage += localStorage.getItem(i);
+    console.log(currentStorage);
+  }
+  //currentStorage.shift(); //removes null value at the beginning of the array due to variable init on blank
+
+  //comparaison de la selection contre l'array récupéré
+  if (currentStorage == !null){
+    for (let item of currentStorage){
+      const itemJson = JSON.parse(item);
+      if (itemJson.id == selection.id && itemJson.color == selection.color){
+        doublon ++;
+      }   
+    }
+  }
+
+  //si doublon est false -> not 1 (la valeur ne peut être que de 0 ou 1), il n'y a pas de doublon donc on push dans el local storage
+  if (!doublon){
+      let article = JSON.stringify(selection);
       localStorage.setItem(i, article);
+      console.log(localStorage.getItem(i));
       i++;
     }else{
       alert(`L'article choisi est déjà présent dans votre panier, vous venez d'ajouter ${doublon} exemplaire au panier`);
-    }     
-  }
+      //ici il faut incrémenter le nombre d'article dans le localStorage
+    }   
 }
 
-// check à refaire car il ne suffit pas qu'uen comparaison ne match pas.
-// il faut qu'il n'y ait aucune occurence sur tt le localStorage
-
+for (let i = 0; i<localStorage.length; i++){
+  console.log(localStorage.key(i)); 
+  console.log(localStorage.getItem(i));
+}
+console.log(window.localStorage.key('1'));
+//méthodes pour clear localStorage et vérifier qu'il est vide. Attention, il reste indice 1 car il est set à 1 avant l'appel de updateCart
+//setTimeout(() => {window.localStorage.clear();}, 5000);
+//setTimeout(() => {for (let i = 0; i<localStorage.length; i++){console.log(localStorage.key(i)); console.log(localStorage.getItem(i));}}, 10000);
 
 
