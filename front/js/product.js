@@ -3,7 +3,7 @@ const url = window.location.search;
 const params = new URLSearchParams(url);
 const productId = params.get('id');
 
-//uen fois l'ID récupéré, on va interroger l'API à nouveau pour aller chercher les détails du produit à afficher
+//une fois l'ID récupéré, on va interroger l'API à nouveau pour aller chercher les détails du produit à afficher
 async function getProduct(id) {
     return fetch(`http://localhost:3000/api/products/${id}`)
     .then(function(result) {
@@ -58,10 +58,8 @@ function colorSetup(){colorSelected = colorOption.value;}
 quantity.addEventListener('change', quantitySetup);
 colorOption.addEventListener('change', colorSetup);
 
-//setTimeout(() => {  console.log(quantitySelected); }, 5000);
-//setTimeout(() => {  console.log(colorSelected); }, 5000);
-
 //creation du panier en localStorage
+//ajout de l'eventHandler sur le bouton 'ajouter au panier'
 const submit = document.getElementById('addToCart');
 submit.addEventListener('click', updateCart);
 
@@ -82,7 +80,8 @@ function updateCart(){
   //récupération du local storage dans un array
   let currentStorage = [];
   for (let i = 0; i<localStorage.length; i++){
-    currentStorage += localStorage.getItem(i);
+    let clef = localStorage.key(i);
+    currentStorage += localStorage.getItem(clef);
     console.log(currentStorage);
   }
   //currentStorage.shift(); //removes null value at the beginning of the array due to variable init on blank
@@ -90,7 +89,7 @@ function updateCart(){
   //comparaison de la selection contre l'array récupéré
   if (currentStorage == !null){
     for (let item of currentStorage){
-      const itemJson = JSON.parse(item);
+      let itemJson = JSON.parse(item);
       if (itemJson.id == selection.id && itemJson.color == selection.color){
         doublon ++;
       }   
@@ -109,13 +108,7 @@ function updateCart(){
     }   
 }
 
-for (let i = 0; i<localStorage.length; i++){
-  console.log(localStorage.key(i)); 
-  console.log(localStorage.getItem(i));
-}
-console.log(window.localStorage.key('1'));
 //méthodes pour clear localStorage et vérifier qu'il est vide. Attention, il reste indice 1 car il est set à 1 avant l'appel de updateCart
 //setTimeout(() => {window.localStorage.clear();}, 5000);
-//setTimeout(() => {for (let i = 0; i<localStorage.length; i++){console.log(localStorage.key(i)); console.log(localStorage.getItem(i));}}, 10000);
 
 
