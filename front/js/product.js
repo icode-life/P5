@@ -53,17 +53,7 @@ displayProductSpecs(product);
 let quantity = document.getElementById('quantity');
 let color = document.getElementById('colors');
 
-/*let qtyInput = document.getElementById('quantity');
-let quantity;
-let colorInput = document.getElementById('colors');
-let color;
 
-function quantitySetup(){quantity = qtyInput.value;}
-function colorSetup(){color = colorInput.value;}
-
-qtyInput.addEventListener('change', quantitySetup);
-colorInput.addEventListener('change', colorSetup);
-*/
 
 
 
@@ -95,11 +85,18 @@ function checkProduct(){
     qty: quantity.value,
     color: color.value
   };
-  console.log(article);
+
   if (article){
     let pickedAlready = basket.find(item => item.id == article.id && item.color == article.color);
     if (pickedAlready != undefined){
-      pickedAlready.qty+=article.qty;
+      //gestion des quantités -> conversion des strings reçues en type Number : var temp
+      //afin d'éviter les concaténations de chaines au lieu d'opération arithmétique sur les quantités
+      //re-cast en string (je pense optionnel mais par sécurité je l'ai fait)
+      let temp1 = Number(pickedAlready.qty);
+      let temp2 = Number(article.qty);
+      let result = temp1 + temp2;
+      pickedAlready.qty = result;
+      pickedAlready.qty.toString();
     }else{
       basket.push(article);
     }
