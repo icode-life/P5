@@ -44,41 +44,65 @@ function displayProductSpecs(product){
 //différents appels aux fonctions pour garnir la page
 let product = await getProduct(productId);//ATTENTION à bien renseigner un type="module" dans le script html
 displayProductSpecs(product);
+//****************************************************************************************
+//****************************************************************************************
 
+
+//partie 2: envoi du form kanap
 //récupération de l'input de l'utilisateur
-  //definitions de variables et fonction eventHandler
 let quantity = document.getElementById('quantity');
 let color = document.getElementById('colors');
 
+/*let qtyInput = document.getElementById('quantity');
+let quantity;
+let colorInput = document.getElementById('colors');
+let color;
+
+function quantitySetup(){quantity = qtyInput.value;}
+function colorSetup(){color = colorInput.value;}
+
+qtyInput.addEventListener('change', quantitySetup);
+colorInput.addEventListener('change', colorSetup);
+*/
+
+
+
 //ajout de l'eventHandler sur le bouton 'ajouter au panier'
 const submit = document.getElementById('addToCart');
-submit.addEventListener('click', updateCart);
+submit.addEventListener('click', checkProduct);
 
-//creation de la sélection
-const selection = {
-id: productId,
-qty: quantity.value,
-color: color.value
-};
-
-//récupération du panier
+//definition de fonction de récupération du panier
 function getBasket(){
     let basket = localStorage.getItem('basket');
+    console.log(basket);
     if (basket == null){
     return [];
   }else{
-    return JSON.parse(basket);
+    let basketObject = JSON.parse(basket);
+    return basketObject;
   }
 }
 
+//definition de la fonction push de l'article dans le localStorage
+function updateCart(basket){localStorage.setItem('basket', JSON.stringify(basket));}
+
 //check doublon et ajout de l'article dans le hash js
-function checkProduct(product){}
-
-//push de l'article dans le localStorage
-function updateCart(){}
-
-
-
-
-//méthodes pour clear localStorage et vérifier qu'il est vide. Attention, il reste indice 1 car il est set à 1 avant l'appel de updateCart
-//setTimeout(() => {window.localStorage.clear();}, 5000);
+function checkProduct(){
+  let basket = getBasket();
+  //creation de la sélection
+  const article = {
+    id: productId,
+    qty: quantity.value,
+    color: color.value
+  };
+  console.log(article);
+  if (article){
+    let pickedAlready = basket.find(item => item.id == article.id && item.color == article.color);
+    if (pickedAlready != undefined){
+      pickedAlready.qty+=article.qty;
+    }else{
+      basket.push(article);
+    }
+    updateCart(basket);
+  }
+}
