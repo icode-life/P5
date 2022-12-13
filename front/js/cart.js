@@ -26,27 +26,23 @@ async function getBasket(){
 
 let basket = await getBasket();
 
+//fill in the missing details (imageUrl, altTxt, name and price) received from the API before display cart
 //fonction pour ajouter les éléments nécessaires à l'affichanche manquant dans le local storage
 function addingMissingSpecifics(basket){
     for (let item of basket){
         const itemDetails = products.find(p => p._id == item.id);
         if (itemDetails){
             item.imageUrl = itemDetails.imageUrl;
-            console.log(item.imageUrl);
             item.altTxt = itemDetails.altTxt;
             item.name = itemDetails.name;
             item.price = itemDetails.price;
         }
     }
 }
-
-//appel à la fonciton poru combler les données manquantes pour l'affichage
+//appel à la fonciton pour combler les données manquantes pour l'affichage
 addingMissingSpecifics(basket);
 
-//fill in the missing details (imageUrl, altTxt, name and price) received from the API before display cart
-
-
-
+//fonction de construction du markup et affichage
 function displayKart(basket){
     for (let kanap of basket){
       //tags creation
@@ -98,8 +94,6 @@ function displayKart(basket){
       cartItemContentDesc.appendChild(h2);
       cartItemContentDesc.appendChild(p1);
       cartItemContentDesc.appendChild(p2);
-      console.log(cartItemContentSettings);
-      console.log(cartItemContentSettingsQty);
       cartItemContent.appendChild(cartItemContentSettings);
       cartItemContentSettings.appendChild(cartItemContentSettingsQty);
       cartItemContentSettingsQty.appendChild(p3Qty);
