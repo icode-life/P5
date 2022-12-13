@@ -105,13 +105,30 @@ function displayKart(basket){
       document.getElementById('cart__items').appendChild(cartItem);
     }
 }
-
 //exec affichage du panier
 displayKart(basket);
 
- /*   function removeItem(item){
+function removeItem(item){
         // listeners on qty -> if qty == 0 : filter out item
 // while qty > 0 -> adjust qty accordingly
-}*/
+}
+
+//récupération input form user
+const firstname = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const address = document.getElementById('address');
+const namcitye = document.getElementById('city');
+const email = document.getElementById('email');
+
+function placeOrder(){
+    const Customer = {
+    firstname: firstname.value,
+    lastName: lastName.value,
+    address: address.value,
+    city: city.value,
+    email: email.value
+  };
+}
+
 
 
