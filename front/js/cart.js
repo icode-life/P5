@@ -26,20 +26,25 @@ async function getBasket(){
 
 let basket = await getBasket();
 
-
-//fill in the missing details (imageUrl, altTxt, name and price) received from the API before display cart
-for (let item of basket){
-    const itemDetails = products.find(p => p._id == item.id);
-    console.log(itemDetails); //problème, je l'écrase à chaque passage
-    if (itemDetails){
-        console.log(itemDetails);
-        console.log(item);
-        item.imageUrl = itemDetails.imageUrl;
-        item.altTxt = itemDetails.altTxt;
-        item.name = itemDetails.name;
-        item.price = itemDetails.price;
+//fonction pour ajouter les éléments nécessaires à l'affichanche manquant dans le local storage
+function addingMissingSpecifics(basket){
+    for (let item of basket){
+        const itemDetails = products.find(p => p._id == item.id);
+        if (itemDetails){
+            item.imageUrl = itemDetails.imageUrl;
+            console.log(item.imageUrl);
+            item.altTxt = itemDetails.altTxt;
+            item.name = itemDetails.name;
+            item.price = itemDetails.price;
+        }
     }
 }
+
+//appel à la fonciton poru combler les données manquantes pour l'affichage
+addingMissingSpecifics(basket);
+
+//fill in the missing details (imageUrl, altTxt, name and price) received from the API before display cart
+
 
 
 function displayKart(basket){
@@ -96,7 +101,7 @@ function displayKart(basket){
       console.log(cartItemContentSettings);
       console.log(cartItemContentSettingsQty);
       cartItemContent.appendChild(cartItemContentSettings);
-      cartItemContentSettings.appendChild(cartItenContentSettingsQty);
+      cartItemContentSettings.appendChild(cartItemContentSettingsQty);
       cartItemContentSettingsQty.appendChild(p3Qty);
       cartItemContentSettingsQty.appendChild(inputQty);
       cartItemContentSettings.appendChild(deleteBtn);
@@ -108,7 +113,7 @@ function displayKart(basket){
 }
 
 //exec affichage du panier
-//displayKart(basket);
+displayKart(basket);
 
  /*   function removeItem(item){
         // listeners on qty -> if qty == 0 : filter out item
