@@ -88,7 +88,7 @@ function checkProduct(){
 
   if (article){
     let pickedAlready = basket.find(item => item.id == article.id && item.color == article.color);
-    if (pickedAlready != undefined){
+    if (pickedAlready !== undefined){
       //gestion des quantités -> conversion des strings reçues en type Number : var temp
       //afin d'éviter les concaténations de chaines au lieu d'opération arithmétique sur les quantités
       //re-cast en string (je pense optionnel mais par sécurité je l'ai fait)

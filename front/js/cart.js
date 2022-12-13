@@ -25,11 +25,12 @@ async function getBasket(){
 }
 
 let basket = await getBasket();
-console.log(basket);
+
 
 //fill in the missing details (imageUrl, altTxt, name and price) received from the API before display cart
-for (let item in basket){
-    const itemDetails = products.find(p => p.id == item.id);
+for (let item of basket){
+    const itemDetails = products.find(p => p._id == item.id);
+    console.log(itemDetails); //problème, je l'écrase à chaque passage
     if (itemDetails){
         console.log(itemDetails);
         console.log(item);
@@ -38,9 +39,7 @@ for (let item in basket){
         item.name = itemDetails.name;
         item.price = itemDetails.price;
     }
-    
 }
-
 
 
 function displayKart(basket){
@@ -66,7 +65,7 @@ function displayKart(basket){
       cartItem.setAttribute("data-id", `${kanap.id}`);
       cartItem.setAttribute("data-color", `${kanap.color}`);
       imgContainer.classList.add('cart__item__img');
-      img.setAttribute('src', `${imageUrl}`);
+      img.setAttribute('src', `${kanap.imageUrl}`);
       img.setAttribute('alt', `alt`);
       cartItemContent.classList.add('cart__item__content');
       cartItemContentDesc.classList.add('cart__item__content__description');
@@ -84,22 +83,24 @@ function displayKart(basket){
       inputQty.setAttribute('value', `${kanap.qty}`);
       deleteBtn.classList.add('cart__item__content__settings__delete');
       deleteBtnLabel.classList.add('deleteItem');
-      deleteBtnLabel.textContent = Supprimer;
+      deleteBtnLabel.textContent = 'Supprimer';
 
       //nesting
       cartItem.appendChild(imgContainer);
       imgContainer.appendChild(img);
-      cartItem.appendChild('cartItemContent');
-      cartItemContent.appendChild('cartItemContentDesc');
-      cartItemContentDesc.appendChild('h2');
-      cartItemContentDesc.appendChild('p1');
-      cartItemContentDesc.appendChild('p2');
-      cartItemContent.appendChild('cartItemContentSettings');
-      cartItemContentSettings.appendChild('cartItenContentSettingsQty');
-      cartItemContentSettingsQty.appendChild('p3Qty');
-      cartItemContentSettingsQty.appendChild('inputQty');
-      cartItemContentSettings.appendChild('deleteBtn');
-      deleteBtn.appendChild('deleteBtnLabel');
+      cartItem.appendChild(cartItemContent);
+      cartItemContent.appendChild(cartItemContentDesc);
+      cartItemContentDesc.appendChild(h2);
+      cartItemContentDesc.appendChild(p1);
+      cartItemContentDesc.appendChild(p2);
+      console.log(cartItemContentSettings);
+      console.log(cartItemContentSettingsQty);
+      cartItemContent.appendChild(cartItemContentSettings);
+      cartItemContentSettings.appendChild(cartItenContentSettingsQty);
+      cartItemContentSettingsQty.appendChild(p3Qty);
+      cartItemContentSettingsQty.appendChild(inputQty);
+      cartItemContentSettings.appendChild(deleteBtn);
+      deleteBtn.appendChild(deleteBtnLabel);
 
       //inject into DOM
       document.getElementById('cart__items').appendChild(cartItem);
@@ -107,11 +108,11 @@ function displayKart(basket){
 }
 
 //exec affichage du panier
-displayKart(basket);
+//displayKart(basket);
 
-    function removeItem(item){
-// listeners on qty -> if qty == 0 : filter out item
+ /*   function removeItem(item){
+        // listeners on qty -> if qty == 0 : filter out item
 // while qty > 0 -> adjust qty accordingly
-}
+}*/
 
 
