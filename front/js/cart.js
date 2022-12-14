@@ -120,7 +120,13 @@ const address = document.getElementById('address');
 const namcitye = document.getElementById('city');
 const email = document.getElementById('email');
 
+//add event listener
+const order = document.getElementById('order');
+submit.addEventListener('click', placeOrder);
+
+//fct de cmd lors du clic sur le btn commander!
 function placeOrder(){
+  //creation du client
     const Customer = {
     firstname: firstname.value,
     lastName: lastName.value,
@@ -128,6 +134,7 @@ function placeOrder(){
     city: city.value,
     email: email.value
   };
+ 
 }
 
 
