@@ -36,10 +36,12 @@ function addingMissingSpecifics(basket){
             item.altTxt = itemDetails.altTxt;
             item.name = itemDetails.name;
             item.price = itemDetails.price;
+            console.log(item);
         }
     }
 }
-//appel à la fonciton pour combler les données manquantes pour l'affichage
+
+//appel à la fonction pour combler les données manquantes pour l'affichage
 addingMissingSpecifics(basket);
 
 //fonction de construction du markup et affichage
@@ -100,7 +102,7 @@ function displayKart(basket){
       cartItemContentSettingsQty.appendChild(inputQty);
       cartItemContentSettings.appendChild(deleteBtn);
       deleteBtn.appendChild(deleteBtnLabel);
-
+        
       //inject into DOM
       document.getElementById('cart__items').appendChild(cartItem);
     }
@@ -117,12 +119,12 @@ function removeItem(item){
 const firstname = document.getElementById('firstName');
 const lastName = document.getElementById('lastName');
 const address = document.getElementById('address');
-const namcitye = document.getElementById('city');
+const city = document.getElementById('city');
 const email = document.getElementById('email');
 
 //add event listener
 const order = document.getElementById('order');
-submit.addEventListener('click', placeOrder);
+order.addEventListener('click', placeOrder);
 
 //fct de cmd lors du clic sur le btn commander!
 function placeOrder(){
