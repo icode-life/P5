@@ -74,7 +74,7 @@ function displayKart(basket){
       cartItemContentDesc.classList.add('cart__item__content__description');
       h2.textContent = kanap.name;
       p1.textContent = kanap.color;
-      p2.textContent = kanap.price;
+      p2.textContent = `${kanap.price} €`;
       cartItemContentSettings.classList.add('cart__item__content__settings');
       cartItemContentSettingsQty.classList.add('cart__item__content__settings__quantity');
       p3Qty.textContent = `Qté: `;
@@ -109,11 +109,33 @@ function displayKart(basket){
 }
 //exec affichage du panier
 displayKart(basket);
+console.log(basket);
 
+//calcul de la somme du panier
+let articleCount = 0;
+let total = 0;
+
+function totalCheckout(basket){
+    for (let i of basket){
+        articleCount += i.qty;
+        total += (i.qty * i.price);
+    }
+}
+
+totalCheckout(basket);
+const displayArtCnt = document.getElementById('totalQuantity');
+displayArtCnt.textContent = articleCount;
+const displayTotalPrice = document.getElementById('totalPrice');
+displayTotalPrice.textContent = total;
+
+
+//possibilité de supprimer un article du panier
 function removeItem(item){
         // listeners on qty -> if qty == 0 : filter out item
 // while qty > 0 -> adjust qty accordingly
 }
+
+//const updatedQty = 
 
 //récupération input form user
 const firstname = document.getElementById('firstName');
