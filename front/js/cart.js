@@ -27,7 +27,7 @@ async function getBasket(){
 let basket = await getBasket();
 
 //fill in the missing details (imageUrl, altTxt, name and price) received from the API before display cart
-//fonction pour ajouter les éléments nécessaires à l'affichanche manquant dans le local storage
+//fonction pour ajouter les éléments manquant dans le panier mais nécessaires à l'affichanche
 function addingMissingSpecifics(basket){
     for (let item of basket){
         const itemDetails = products.find(p => p._id == item.id);
@@ -105,6 +105,9 @@ function displayKart(basket){
         
       //inject into DOM
       document.getElementById('cart__items').appendChild(cartItem);
+
+      //adding event listener
+      inputQty.addEventListener('change', e => updateArtQty);
     }
 }
 //exec affichage du panier
@@ -123,16 +126,20 @@ function totalCheckout(basket){
 }
 
 totalCheckout(basket);
+
 const displayArtCnt = document.getElementById('totalQuantity');
 displayArtCnt.textContent = articleCount;
 const displayTotalPrice = document.getElementById('totalPrice');
 displayTotalPrice.textContent = total;
 
+//ajout event listeners updateQty et deleteArt
+
+
+
 
 //possibilité de supprimer un article du panier
 function removeItem(item){
-        // listeners on qty -> if qty == 0 : filter out item
-// while qty > 0 -> adjust qty accordingly
+
 }
 
 //const updatedQty = 
