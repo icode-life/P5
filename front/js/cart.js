@@ -105,8 +105,9 @@ function displayKart(basket){
       //inject into DOM
       document.getElementById('cart__items').appendChild(cartItem);
 
-      //adding event listener
+      //adding event listeners
       inputQty.addEventListener('change', e => updateArtQty(e));
+      deleteBtnLabel.addEventListener('click', e => removeItem(e));
     }
 }
 //exec affichage du panier
@@ -156,8 +157,21 @@ const updateArtQty = event => {
 
 
 //possibilité de supprimer un article du panier
-function removeItem(item){
-
+function removeItem(event){
+    const article = event.target.closest('.cart__item');
+    const dataId = article.dataset.id;
+    const dataColor = article.dataset.color;
+    //const newBasket = basket.filter( art => {art.id !== dataId && art.color !== dataColor;});
+    
+    for (let item of basket){
+        if (item.id === dataId && item.color === dataColor){
+            let index = basket.indexOf(item);
+            console.log(index);
+            basket.splice(index, 1);
+        }  
+    }
+    localStorage.setItem('basket', JSON.stringify(basket));
+    window.location.reload();
 }
 
 //const updatedQty = 
