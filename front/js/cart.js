@@ -107,7 +107,7 @@ function displayKart(basket){
       document.getElementById('cart__items').appendChild(cartItem);
 
       //adding event listener
-      inputQty.addEventListener('change', e => updateArtQty);
+      inputQty.addEventListener('change', e => updateArtQty(e));
     }
 }
 //exec affichage du panier
@@ -132,9 +132,18 @@ displayArtCnt.textContent = articleCount;
 const displayTotalPrice = document.getElementById('totalPrice');
 displayTotalPrice.textContent = total;
 
-//ajout event listeners updateQty et deleteArt
 
+//fonction callback de l'event listener
+const updateArtQty = event => {
+   const article = event.target.closest('.cart__item');
+   const dataId = article.dataset.id;
+   const dataColor = article.dataset.color;
 
+   //récupération bon élément
+   //modif dans basket
+   //re-insert dans localstorage
+   //relancer la fonction 
+};
 
 
 //possibilité de supprimer un article du panier
