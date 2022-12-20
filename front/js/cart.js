@@ -36,7 +36,6 @@ function addingMissingSpecifics(basket){
             item.altTxt = itemDetails.altTxt;
             item.name = itemDetails.name;
             item.price = itemDetails.price;
-            console.log(item);
         }
     }
 }
@@ -120,8 +119,8 @@ let total = 0;
 
 function totalCheckout(basket){
     for (let i of basket){
-        articleCount += i.qty;
-        total += (i.qty * i.price);
+        articleCount += +i.qty;
+        total += (+i.qty * +i.price);
     }
 }
 
@@ -135,15 +134,25 @@ displayTotalPrice.textContent = total;
 
 //fonction callback de l'event listener
 const updateArtQty = event => {
-   const article = event.target.closest('.cart__item');
-   const dataId = article.dataset.id;
-   const dataColor = article.dataset.color;
+    console.log(event.target);
+    //on va chercher la nouvelle quantité
+    const newQty = event.target.value;
+    //on récupère l'id et la couleur liée à la quantité altérée
+    const article = event.target.closest('.cart__item');
+    const dataId = article.dataset.id;
+    const dataColor = article.dataset.color;
+    //on modifie la quantité stockée dans le basket (live)
+    for (let item of basket){
+        if (item.id == dataId && item.color == dataColor) {
+            item.qty = newQty;
+        }
+    }
+    //push dans le local storage
+    localStorage.setItem('basket', JSON.stringify(basket));
+    //update de la page pour calcul prix correct
+    window.location.reload();
+}
 
-   //récupération bon élément
-   //modif dans basket
-   //re-insert dans localstorage
-   //relancer la fonction 
-};
 
 
 //possibilité de supprimer un article du panier
@@ -174,8 +183,4 @@ function placeOrder(){
     city: city.value,
     email: email.value
   };
- 
 }
-
-
-
