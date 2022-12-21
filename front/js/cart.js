@@ -112,7 +112,6 @@ function displayKart(basket){
 }
 //exec affichage du panier
 displayKart(basket);
-console.log(basket);
 
 //calcul de la somme du panier
 let articleCount = 0;
@@ -158,43 +157,83 @@ const updateArtQty = event => {
 
 //possibilité de supprimer un article du panier
 function removeItem(event){
+    //recherche de l'id et couluer liée à l'event
     const article = event.target.closest('.cart__item');
     const dataId = article.dataset.id;
     const dataColor = article.dataset.color;
     //const newBasket = basket.filter( art => {art.id !== dataId && art.color !== dataColor;});
     
+    //suppression de l'item via splice() car pas moyen avec filter()
     for (let item of basket){
-        if (item.id === dataId && item.color === dataColor){
-            let index = basket.indexOf(item);
-            console.log(index);
+        if (item.id === dataId && item.color === dataColor){ //recherche dans le panier de l'item à supprimer sur base couleur et id
+            const index = basket.indexOf(item);//recherche de l'index pour le passer à splice()
             basket.splice(index, 1);
         }  
     }
-    localStorage.setItem('basket', JSON.stringify(basket));
-    window.location.reload();
+    localStorage.setItem('basket', JSON.stringify(basket));//update localStorage
+    window.location.reload();//refresh
 }
 
-//const updatedQty = 
+//creation Regexs
+let emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+let textRegex = /^[a-zA-Z\u00C0-\u00FF\-]*$/;
+let addressRegex = /^[a-zA-Z\u00C0-\u00FF0-9\s\,\''\-]*$/;
 
-//récupération input form user
-const firstname = document.getElementById('firstName');
+// creation objet customer
+const Customer = {}; //init. fill-ins will be executed by listeners' callbacks
+
+//récupération input form user and UX form helper
+//event listeners will make the filed lit up green if success (regex matched)
+//then assign the value of input to the customer object
+//if regex match returns false, css is injected to lit up the text field in red
+const firstName = document.getElementById('firstName');
+firstName.addEventListener('change', event => {
+    if (event.target.value.match(textRegex)){
+        event.target.setAttribute('style', 'background-color: lightgreen;');
+        Customer.firstName = event.target.value;
+    }else{
+        event.target.setAttribute('style', 'background-color: red')
+    }});
 const lastName = document.getElementById('lastName');
+lastName.addEventListener('change', event => {
+    if (event.target.value.match(textRegex)){
+        event.target.setAttribute('style', 'background-color: lightgreen;');
+        Customer.lastName = event.target.value;
+    }else{
+        event.target.setAttribute('style', 'background-color: red')
+    }});
 const address = document.getElementById('address');
+address.addEventListener('change', event => {
+    if (event.target.value.match(addressRegex)){
+        event.target.setAttribute('style', 'background-color: lightgreen;');
+        Customer.address = event.target.value;
+    }else{
+        event.target.setAttribute('style', 'background-color: red')
+    }});
 const city = document.getElementById('city');
+city.addEventListener('change', event => {
+    if (event.target.value.match(textRegex)){
+        event.target.setAttribute('style', 'background-color: lightgreen;');
+        Customer.city = event.target.value;
+    }else{
+        event.target.setAttribute('style', 'background-color: red')
+    }});
 const email = document.getElementById('email');
+email.addEventListener('change', event => {
+    if (event.target.value.match(emailRegex)){
+        event.target.setAttribute('style', 'background-color: lightgreen;');
+        Customer.email = event.target.value;
+    }else{
+        event.target.setAttribute('style', 'background-color: red')
+    }});
 
-//add event listener
+
+//add event listener call to action
 const order = document.getElementById('order');
 order.addEventListener('click', placeOrder);
 
 //fct de cmd lors du clic sur le btn commander!
 function placeOrder(){
   //creation du client
-    const Customer = {
-    firstname: firstname.value,
-    lastName: lastName.value,
-    address: address.value,
-    city: city.value,
-    email: email.value
-  };
+  
 }
