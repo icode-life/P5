@@ -187,53 +187,66 @@ const Customer = {}; //init. fill-ins will be executed by listeners' callbacks
 //then assign the value of input to the customer object
 //if regex match returns false, css is injected to lit up the text field in red
 const firstName = document.getElementById('firstName');
-firstName.addEventListener('change', event => {
+firstName.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.firstName = event.target.value;
     }else{
-        event.target.setAttribute('style', 'background-color: red')
+        event.target.setAttribute('style', 'background-color: red');
+        document.getElementById('firstNameErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
     }});
 const lastName = document.getElementById('lastName');
-lastName.addEventListener('change', event => {
+lastName.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.lastName = event.target.value;
     }else{
-        event.target.setAttribute('style', 'background-color: red')
+        event.target.setAttribute('style', 'background-color: red');
+        document.getElementById('lastNameErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
     }});
 const address = document.getElementById('address');
-address.addEventListener('change', event => {
+address.addEventListener('keyup', event => {
     if (event.target.value.match(addressRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.address = event.target.value;
     }else{
-        event.target.setAttribute('style', 'background-color: red')
+        event.target.setAttribute('style', 'background-color: red');
+        document.getElementById('addressErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
     }});
 const city = document.getElementById('city');
-city.addEventListener('change', event => {
+city.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.city = event.target.value;
     }else{
-        event.target.setAttribute('style', 'background-color: red')
+        event.target.setAttribute('style', 'background-color: red');
+        document.getElementById('cityErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
     }});
 const email = document.getElementById('email');
-email.addEventListener('change', event => {
+email.addEventListener('keyup', event => {
     if (event.target.value.match(emailRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.email = event.target.value;
     }else{
-        event.target.setAttribute('style', 'background-color: red')
+        event.target.setAttribute('style', 'background-color: red');
+        document.getElementById('emailErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
     }});
 
+    //fct de cmd lors du clic sur le btn commander!
+const placeOrder = (basket, customer) => {
+    let data = {customer, basket};
+    console.log(data);
+    let response = fetch('http://localhost:3000/api/products/order', {
+        method: 'POST', 
+        headers: {'content-Type': 'application/json;'},
+        body: JSON.stringify(data)
+    }); 
+    let result = response.json();
+    alert(result.message);
+};
 
 //add event listener call to action
 const order = document.getElementById('order');
-order.addEventListener('click', placeOrder);
+order.addEventListener('click', placeOrder(basket, Customer));
 
-//fct de cmd lors du clic sur le btn commander!
-function placeOrder(){
-  //creation du client
-  
-}
+
