@@ -180,7 +180,7 @@ let textRegex = /^[a-zA-Z\u00C0-\u00FF\-]*$/;
 let addressRegex = /^[a-zA-Z\u00C0-\u00FF0-9\s\,\''\-]*$/;
 
 // creation objet customer
-const Customer = {}; //init. fill-ins will be executed by listeners' callbacks
+let Customer = {}; //init. fill-ins will be executed by listeners' callbacks
 
 //récupération input form user and UX form helper
 //event listeners will make the filed lit up green if success (regex matched)
@@ -191,6 +191,7 @@ firstName.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.firstName = event.target.value;
+        document.getElementById('firstNameErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
         document.getElementById('firstNameErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
@@ -200,6 +201,7 @@ lastName.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.lastName = event.target.value;
+        document.getElementById('lastNameErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
         document.getElementById('lastNameErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
@@ -209,6 +211,7 @@ address.addEventListener('keyup', event => {
     if (event.target.value.match(addressRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.address = event.target.value;
+        document.getElementById('addressErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
         document.getElementById('addressErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
@@ -218,6 +221,7 @@ city.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.city = event.target.value;
+        document.getElementById('cityErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
         document.getElementById('cityErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
@@ -227,26 +231,33 @@ email.addEventListener('keyup', event => {
     if (event.target.value.match(emailRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
         Customer.email = event.target.value;
+        document.getElementById('emailErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
         document.getElementById('emailErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
     }});
 
     //fct de cmd lors du clic sur le btn commander!
-const placeOrder = (basket, customer) => {
-    let data = {customer, basket};
+const placeOrder = async () => {
+    //reconstruction des IDs du basket dans l'array panier
+    let panier = [];
+    for (let article of basket){
+        panier.push(article.id);
+    }
+    //préparation des data à envouer à l'API
+    let data = {Customer, panier};
     console.log(data);
-    let response = fetch('http://localhost:3000/api/products/order', {
+    const response = await fetch('http://localhost:3000/api/products/order', {
         method: 'POST', 
-        headers: {'content-Type': 'application/json;'},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
-    }); 
-    let result = response.json();
-    alert(result.message);
-};
+    })
+    .then(response => response.json())
+    .then(response => console.log(JSON.stringify(response)))
+}
 
 //add event listener call to action
 const order = document.getElementById('order');
-order.addEventListener('click', placeOrder(basket, Customer));
+order.addEventListener('click', placeOrder);
 
 
