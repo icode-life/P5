@@ -239,7 +239,7 @@ email.addEventListener('keyup', event => {
 
     //fct de cmd lors du clic sur le btn commander!
 const placeOrder = (event) => {
-    event.preventDefault();
+    event.preventDefault(); //avoid auto reload due to type submit
     //reconstruction des IDs du basket dans l'array panier
     let panier = [];
     for (let article of basket){
