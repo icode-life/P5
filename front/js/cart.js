@@ -150,7 +150,7 @@ const updateArtQty = event => {
     //push dans le local storage
     localStorage.setItem('basket', JSON.stringify(basket));
     //update de la page pour calcul prix correct
-    window.location.reload();
+    window.location.reload();//remplacer pat fct total checkout
 }
 
 
@@ -161,16 +161,16 @@ function removeItem(event){
     const article = event.target.closest('.cart__item');
     const dataId = article.dataset.id;
     const dataColor = article.dataset.color;
-    //const newBasket = basket.filter( art => {art.id !== dataId && art.color !== dataColor;});
-    
+    const newBasket = basket.filter( art => (art.id !== dataId && art.color !== dataColor)); //parenthèses de fct -> pas besoin de return ni de semicolon
+    console.log(newBasket);
     //suppression de l'item via splice() car pas moyen avec filter()
-    for (let item of basket){
+    /*for (let item of basket){
         if (item.id === dataId && item.color === dataColor){ //recherche dans le panier de l'item à supprimer sur base couleur et id
             const index = basket.indexOf(item);//recherche de l'index pour le passer à splice()
             basket.splice(index, 1);
         }  
-    }
-    localStorage.setItem('basket', JSON.stringify(basket));//update localStorage
+    }*/
+    localStorage.setItem('basket', JSON.stringify(newBasket));//update localStorage
     window.location.reload();//refresh
 }
 
@@ -238,7 +238,8 @@ email.addEventListener('keyup', event => {
     }});
 
     //fct de cmd lors du clic sur le btn commander!
-const placeOrder = async () => {
+const placeOrder = (event) => {
+    event.preventDefault();
     //reconstruction des IDs du basket dans l'array panier
     let panier = [];
     for (let article of basket){
@@ -247,13 +248,13 @@ const placeOrder = async () => {
     //préparation des data à envouer à l'API
     let data = {Customer, panier};
     console.log(data);
-    const response = await fetch('http://localhost:3000/api/products/order', {
+    fetch('http://localhost:3000/api/products/order', {
         method: 'POST', 
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
     })
     .then(response => response.json())
-    .then(response => console.log(JSON.stringify(response)))
+    .then(data => console.log(data))
 }
 
 //add event listener call to action
