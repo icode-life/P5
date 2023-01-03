@@ -133,8 +133,7 @@ displayTotalPrice.textContent = total;
 
 
 //fonction callback de l'event listener
-const updateArtQty = event => {
-    console.log(event.target);
+const updateArtQty = async event => {
     //on va chercher la nouvelle quantité
     const newQty = event.target.value;
     //on récupère l'id et la couleur liée à la quantité altérée
@@ -150,7 +149,12 @@ const updateArtQty = event => {
     //push dans le local storage
     localStorage.setItem('basket', JSON.stringify(basket));
     //update de la page pour calcul prix correct
-    window.location.reload();//remplacer pat fct total checkout
+    articleCount = 0;
+    total = 0;
+    basket = await getBasket();
+    console.log(basket);
+    totalCheckout(basket);
+    //window.location.reload();//remplacer pat fct total checkout
 }
 
 
@@ -180,7 +184,7 @@ let textRegex = /^[a-zA-Z\u00C0-\u00FF\-]*$/;
 let addressRegex = /^[a-zA-Z\u00C0-\u00FF0-9\s\,\''\-]*$/;
 
 // creation objet customer
-let Customer = {}; //init. fill-ins will be executed by listeners' callbacks
+let contact = {}; //init. fill-ins will be executed by listeners' callbacks
 
 //récupération input form user and UX form helper
 //event listeners will make the filed lit up green if success (regex matched)
@@ -190,7 +194,7 @@ const firstName = document.getElementById('firstName');
 firstName.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
-        Customer.firstName = event.target.value;
+        contact.firstName = event.target.value;
         document.getElementById('firstNameErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
@@ -200,7 +204,7 @@ const lastName = document.getElementById('lastName');
 lastName.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
-        Customer.lastName = event.target.value;
+        contact.lastName = event.target.value;
         document.getElementById('lastNameErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
@@ -210,7 +214,7 @@ const address = document.getElementById('address');
 address.addEventListener('keyup', event => {
     if (event.target.value.match(addressRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
-        Customer.address = event.target.value;
+        contact.address = event.target.value;
         document.getElementById('addressErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
@@ -220,7 +224,7 @@ const city = document.getElementById('city');
 city.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
-        Customer.city = event.target.value;
+        contact.city = event.target.value;
         document.getElementById('cityErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
@@ -230,7 +234,7 @@ const email = document.getElementById('email');
 email.addEventListener('keyup', event => {
     if (event.target.value.match(emailRegex)){
         event.target.setAttribute('style', 'background-color: lightgreen;');
-        Customer.email = event.target.value;
+        contact.email = event.target.value;
         document.getElementById('emailErrorMsg').textContent = '';
     }else{
         event.target.setAttribute('style', 'background-color: red');
@@ -241,12 +245,12 @@ email.addEventListener('keyup', event => {
 const placeOrder = (event) => {
     event.preventDefault(); //avoid auto reload due to type submit
     //reconstruction des IDs du basket dans l'array panier
-    let panier = [];
+    let products = [];
     for (let article of basket){
-        panier.push(article.id);
+        products.push(article.id);
     }
     //préparation des data à envouer à l'API
-    let data = {Customer, panier};
+    let data = {contact, products};
     console.log(data);
     fetch('http://localhost:3000/api/products/order', {
         method: 'POST', 
