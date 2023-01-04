@@ -250,19 +250,21 @@ const placeOrder = (event) => {
         products.push(article.id);
     }
     //préparation des data à envouer à l'API
-    let data = {contact, products};
-    console.log(data);
-    fetch('http://localhost:3000/api/products/order', {
-        method: 'POST', 
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    //.then(data => console.log(data))
-    .then((data) => {
+    if (contact.firstName && contact.lastName && contact.address && contact.city && contact.email){
+        let data = {contact, products};
         console.log(data);
-        document.location.href=`./confirmation.html?orderId=${data.orderId}`
-    })
+        fetch('http://localhost:3000/api/products/order', {
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        //.then(data => console.log(data))
+        .then((data) => {
+            console.log(data);
+            document.location.href=`./confirmation.html?orderId=${data.orderId}`
+        })
+    }
 }
 
 //add event listener call to action
