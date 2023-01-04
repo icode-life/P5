@@ -11,33 +11,33 @@ async function getKanaps() {
 }
 
 function displayKanaps(products){
-    for (let product of products){
-      //tags creation
-      const clicableItem = document.createElement('a');
-      const article = document.createElement('article');
-      const image = document.createElement('img');
-      const itemTitle = document.createElement('h3');
-      const parag = document.createElement('p');
+  for (let product of products){
+    //tags creation
+    const clicableItem = document.createElement('a');
+    const article = document.createElement('article');
+    const image = document.createElement('img');
+    const itemTitle = document.createElement('h3');
+    const parag = document.createElement('p');
 
-      //attributes and class setting
-      image.setAttribute(`src`, `${product.imageUrl}`);
-      image.setAttribute(`alt`, `${product.altTxt}`);
-      clicableItem.setAttribute(`href`, `./product.html?id=${product._id}`);
-      itemTitle.classList.add(`productName`);
-      
-      //fill-ins
-      itemTitle.textContent = product.name;
-      parag.textContent = product.description;
+    //attributes and class setting
+    image.setAttribute(`src`, `${product.imageUrl}`);
+    image.setAttribute(`alt`, `${product.altTxt}`);
+    clicableItem.setAttribute(`href`, `./product.html?id=${product._id}`);
+    itemTitle.classList.add(`productName`);
+    
+    //fill-ins
+    itemTitle.textContent = product.name;
+    parag.textContent = product.description;
 
-      //nesting
-      clicableItem.appendChild(article);
-      article.appendChild(image);
-      article.appendChild(itemTitle);
-      article.appendChild(parag);
+    //nesting
+    clicableItem.appendChild(article);
+    article.appendChild(image);
+    article.appendChild(itemTitle);
+    article.appendChild(parag);
 
-      //import into DOM
-      document.getElementById('items').appendChild(clicableItem);
-    }
+    //import into DOM
+    document.getElementById('items').appendChild(clicableItem);
+  }
 }
 
 const products = await getKanaps();

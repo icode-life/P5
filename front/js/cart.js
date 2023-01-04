@@ -14,7 +14,7 @@ async function getKanaps() {
 const products = await getKanaps();
 
 // fetch du panier en localStorage
-async function getBasket(){
+function getBasket(){
     let basket = localStorage.getItem('basket');
     if (basket == null){
     return [];
@@ -24,7 +24,7 @@ async function getBasket(){
   }
 }
 
-let basket = await getBasket();
+let basket = getBasket();
 
 //fill in the missing details (imageUrl, altTxt, name and price) received from the API before display cart
 //fonction pour ajouter les éléments manquant dans le panier mais nécessaires à l'affichanche
@@ -113,27 +113,28 @@ function displayKart(basket){
 //exec affichage du panier
 displayKart(basket);
 
-//calcul de la somme du panier
-let articleCount = 0;
-let total = 0;
+let articleCount;
+let total;
+const displayArtCnt = document.getElementById('totalQuantity');
+const displayTotalPrice = document.getElementById('totalPrice');
 
 function totalCheckout(basket){
+    articleCount = 0;
+    total = 0;
     for (let i of basket){
         articleCount += +i.qty;
         total += (+i.qty * +i.price);
     }
+    displayArtCnt.textContent = articleCount;
+    displayTotalPrice.textContent = total;
 }
 
 totalCheckout(basket);
 
-const displayArtCnt = document.getElementById('totalQuantity');
-displayArtCnt.textContent = articleCount;
-const displayTotalPrice = document.getElementById('totalPrice');
-displayTotalPrice.textContent = total;
 
 
 //fonction callback de l'event listener
-const updateArtQty = async event => {
+const updateArtQty =  event => {
     //on va chercher la nouvelle quantité
     const newQty = event.target.value;
     //on récupère l'id et la couleur liée à la quantité altérée
@@ -151,7 +152,6 @@ const updateArtQty = async event => {
     //update de la page pour calcul prix correct
     articleCount = 0;
     total = 0;
-    basket = await getBasket();
     console.log(basket);
     totalCheckout(basket);
     //window.location.reload();//remplacer pat fct total checkout
@@ -258,7 +258,11 @@ const placeOrder = (event) => {
         body: JSON.stringify(data)
     })
     .then(response => response.json())
-    .then(data => console.log(data))
+    //.then(data => console.log(data))
+    .then((data) => {
+        console.log(data);
+        document.location.href=`./confirmation.html?orderId=${data.orderId}`
+    })
 }
 
 //add event listener call to action
