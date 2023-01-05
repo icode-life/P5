@@ -1,4 +1,7 @@
-// requête à l'api pour placer tous les produit
+/**
+ * 
+ * @returns (Promise) renvoie tous les aticles via requête à l'API
+ */
 async function getKanaps() {
   return fetch("http://localhost:3000/api/products")
   .then(function(resultSet) {
@@ -13,21 +16,28 @@ async function getKanaps() {
 
 const products = await getKanaps();
 
-// fetch du panier en localStorage
+/**
+ * fetch items in localStorage
+ * @returns collection of objects
+ */
 function getBasket(){
     let basket = localStorage.getItem('basket');
     if (basket == null){
-    return [];
-  }else{
-    let basketObject = JSON.parse(basket);
-    return basketObject;
-  }
+        return [];
+    }else{
+        let basketObject = JSON.parse(basket);
+        return basketObject;
+    }
 }
 
 let basket = getBasket();
 
-//fill in the missing details (imageUrl, altTxt, name and price) received from the API before display cart
-//fonction pour ajouter les éléments manquant dans le panier mais nécessaires à l'affichanche
+/**
+ * fill in the missing details (imageUrl, altTxt, name and price) received from the API before display cart
+ * fonction pour ajouter les éléments manquant dans le panier mais nécessaires à l'affichanche
+ * @param  (collection of objects) basket
+ */
+//
 function addingMissingSpecifics(basket){
     for (let item of basket){
         const itemDetails = products.find(p => p._id == item.id);
@@ -40,10 +50,13 @@ function addingMissingSpecifics(basket){
     }
 }
 
-//appel à la fonction pour combler les données manquantes pour l'affichage
+//function call
 addingMissingSpecifics(basket);
 
-//fonction de construction du markup et affichage
+/**
+ * tags creation/tags' properties setting/nesting/injection into DOM/+Event listeners creation in a loop
+ * @param (collection of objects) basket 
+ */
 function displayKart(basket){
     for (let kanap of basket){
       //tags creation
@@ -110,7 +123,7 @@ function displayKart(basket){
       deleteBtnLabel.addEventListener('click', e => removeItem(e));
     }
 }
-//exec affichage du panier
+//function call for content creation and display
 displayKart(basket);
 
 let articleCount;
@@ -118,6 +131,11 @@ let total;
 const displayArtCnt = document.getElementById('totalQuantity');
 const displayTotalPrice = document.getElementById('totalPrice');
 
+/**
+ * does the math in order to display the number of items in the cart as well as teh total price tag 
+ * @param (collection of objects) basket
+ * @returns items number in cart and total price
+ */
 function totalCheckout(basket){
     articleCount = 0;
     total = 0;
@@ -128,40 +146,46 @@ function totalCheckout(basket){
     displayArtCnt.textContent = articleCount;
     displayTotalPrice.textContent = total;
 }
-
+//function call
 totalCheckout(basket);
 
 
 
-//fonction callback de l'event listener
+/**
+ * function that listens to modification of quantity by user while double checking his cart items
+ * update the item quantity if necessary and update localStorage too.
+ * totalCheckout is invoked anew to perform the math on the updated cart.
+ * @param (object:event) event
+ * @returns listens to quantity change and update localStorage accordingly
+ */
 const updateArtQty =  event => {
-    //on va chercher la nouvelle quantité
+    //fetch new quantity selected by user
     const newQty = event.target.value;
-    //on récupère l'id et la couleur liée à la quantité altérée
+    //crawl up to get to Id and color that come alongside the updated quantity
     const article = event.target.closest('.cart__item');
     const dataId = article.dataset.id;
     const dataColor = article.dataset.color;
-    //on modifie la quantité stockée dans le basket (live)
+    //update basket with new quantity selected(live - not yet in localStorage)
     for (let item of basket){
         if (item.id == dataId && item.color == dataColor) {
             item.qty = newQty;
         }
     }
-    //push dans le local storage
+    //push to localStorage
     localStorage.setItem('basket', JSON.stringify(basket));
-    //update de la page pour calcul prix correct
+    
+    //new call of totalCheckout to display the updated price tag 
     articleCount = 0;
     total = 0;
     console.log(basket);
     totalCheckout(basket);
-    //window.location.reload();//remplacer pat fct total checkout
 }
 
 
 
-//possibilité de supprimer un article du panier
+//cart item deletion
 function removeItem(event){
-    //recherche de l'id et couluer liée à l'event
+    //recherche de l'id et couleur liée à l'event
     const article = event.target.closest('.cart__item');
     const dataId = article.dataset.id;
     const dataColor = article.dataset.color;
@@ -178,18 +202,20 @@ function removeItem(event){
     window.location.reload();//refresh
 }
 
-//creation Regexs
+//Regexs definition
 let emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 let textRegex = /^[a-zA-Z\u00C0-\u00FF\-]*$/;
 let addressRegex = /^[a-zA-Z\u00C0-\u00FF0-9\s\,\''\-]*$/;
 
-// creation objet customer
+// contact object init. object name's first letter not capitalized because of the API requirements
 let contact = {}; //init. fill-ins will be executed by listeners' callbacks
 
-//récupération input form user and UX form helper
-//event listeners will make the filed lit up green if success (regex matched)
-//then assign the value of input to the customer object
-//if regex match returns false, css is injected to lit up the text field in red
+/**
+ * fetch input from user and UX form helper
+ * event listeners will make the field light up green if success (regex matched)
+ * then assign the value of input to the customer object
+ * if regex match returns false, css is injected to lit up the text field in red
+ */
 const firstName = document.getElementById('firstName');
 firstName.addEventListener('keyup', event => {
     if (event.target.value.match(textRegex)){
@@ -241,7 +267,14 @@ email.addEventListener('keyup', event => {
         document.getElementById('emailErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
     }});
 
-    //fct de cmd lors du clic sur le btn commander!
+/**
+ * function preps the product array of IDs compliant with API requirements
+ * checks if all fields of contact object are present
+ * prepares the post request with expected data then sends it over to the API
+ * then redirects to confirmation.html with orderID passed thru the url
+ * @param {event: click submit} event 
+ * @returns response from API with order number generation
+ */
 const placeOrder = (event) => {
     event.preventDefault(); //avoid auto reload due to type submit
     //reconstruction des IDs du basket dans l'array panier
