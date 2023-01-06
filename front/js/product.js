@@ -46,20 +46,17 @@ function displayProductSpecs(product){
 }
 
 
-//différents appels aux fonctions pour garnir la page
+//function calls
 let product = await getProduct(productId);//ATTENTION à bien renseigner un type="module" dans le script html
 displayProductSpecs(product);
 //****************************************************************************************
 //****************************************************************************************
 
 
-//partie 2: envoi du form kanap
+//part 2: envoi du form kanap
 //get user input
 let quantity = document.getElementById('quantity');
 let color = document.getElementById('colors');
-
-
-
 
 
 //add eventHandler on 'ajouter au panier'

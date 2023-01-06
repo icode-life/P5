@@ -29,7 +29,6 @@ function getBasket(){
         return basketObject;
     }
 }
-
 let basket = getBasket();
 
 /**
@@ -177,7 +176,6 @@ const updateArtQty =  event => {
     //new call of totalCheckout to display the updated price tag 
     articleCount = 0;
     total = 0;
-    console.log(basket);
     totalCheckout(basket);
 }
 
@@ -190,7 +188,6 @@ function removeItem(event){
     const dataId = article.dataset.id;
     const dataColor = article.dataset.color;
     const newBasket = basket.filter( art => (art.id !== dataId && art.color !== dataColor)); //parenthèses de fct -> pas besoin de return ni de semicolon
-    console.log(newBasket);
     //suppression de l'item via splice() car pas moyen avec filter()
     /*for (let item of basket){
         if (item.id === dataId && item.color === dataColor){ //recherche dans le panier de l'item à supprimer sur base couleur et id
@@ -285,16 +282,13 @@ const placeOrder = (event) => {
     //préparation des data à envouer à l'API
     if (contact.firstName && contact.lastName && contact.address && contact.city && contact.email){
         let data = {contact, products};
-        console.log(data);
         fetch('http://localhost:3000/api/products/order', {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
         })
         .then(response => response.json())
-        //.then(data => console.log(data))
         .then((data) => {
-            console.log(data);
             document.location.href=`./confirmation.html?orderId=${data.orderId}`
         })
     }
