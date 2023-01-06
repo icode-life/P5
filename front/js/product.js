@@ -1,9 +1,9 @@
-//récupération de l'ID du produit àpd l'url
+//retrieve the product ID in the url
 const url = window.location.search;
 const params = new URLSearchParams(url);
 const productId = params.get('id');
 
-//une fois l'ID récupéré, on va interroger l'API à nouveau pour aller chercher les détails du produit à afficher
+//with the ID fetched from url, call the API to get the specifics of the product
 async function getProduct(id) {
     return fetch(`http://localhost:3000/api/products/${id}`)
     .then(function(result) {
@@ -16,7 +16,12 @@ async function getProduct(id) {
   });
 }
 
-//cette fonction affiche les éléments du produits en générant le html nécessaire
+/**
+ * this function genrates the html, proceed to nesting and then returns the tags created as well as
+ * product details on the dedicated webpage.
+ * @param {object} product
+ * @returns display the product details in product.html 
+ */
 function displayProductSpecs(product){
     //fetch le node par une autre méthode car classname ne renvoie pas l'élément directement.
     //document.querySelector renvoie bien le node
@@ -49,7 +54,7 @@ displayProductSpecs(product);
 
 
 //partie 2: envoi du form kanap
-//récupération de l'input de l'utilisateur
+//get user input
 let quantity = document.getElementById('quantity');
 let color = document.getElementById('colors');
 
@@ -57,14 +62,16 @@ let color = document.getElementById('colors');
 
 
 
-//ajout de l'eventHandler sur le bouton 'ajouter au panier'
+//add eventHandler on 'ajouter au panier'
 const submit = document.getElementById('addToCart');
 submit.addEventListener('click', checkProduct);
 
-//definition de fonction de récupération du panier
+/**
+ * this function fetch basket in localStorage
+ * @returns empty array if basket empty or collection of objects (canapé)
+ */
 function getBasket(){
     let basket = localStorage.getItem('basket');
-    console.log(basket);
     if (basket == null){
     return [];
   }else{
@@ -73,10 +80,20 @@ function getBasket(){
   }
 }
 
-//definition de la fonction push de l'article dans le localStorage
+/**
+ * this function pushes the updated basket of items to localStorage
+ * @param {collection of objects} basket 
+ */
 function updateCart(basket){localStorage.setItem('basket', JSON.stringify(basket));}
 
-//check doublon et ajout de l'article dans le hash js
+/**
+ * this function calls getBasket to fetch basket in localStorage
+ * then creates an object with id, quantity and color of the selected product
+ * if the item is properly set, it checks whether the user has already selected the same id and color previously
+ * if the user did pick the item already, function updates quantity in basket rather than creating twice or more of the same item
+ * if it the first time, the item is pushed as a new entry in basket
+ * finally, it saves the new basket to localStorage by calling updateCart()
+ */
 function checkProduct(){
   let basket = getBasket();
   //creation de la sélection

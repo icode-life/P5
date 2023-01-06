@@ -1,3 +1,7 @@
+/**
+ * this function fetches all products from API 
+ * @returns a collection comprised of all the items available from the API
+ */
 async function getKanaps() {
   return fetch("http://localhost:3000/api/products")
   .then(function(resultSet) {
@@ -10,6 +14,10 @@ async function getKanaps() {
   });
 }
 
+/**
+ * this function generates needed html tags, attributes, nests tags where they belong and injects into DOM
+ * @param {collection of objects} products 
+ */
 function displayKanaps(products){
   for (let product of products){
     //tags creation
