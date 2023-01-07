@@ -187,6 +187,7 @@ const updateArtQty =  event => {
     //new call of totalCheckout to display the updated price tag 
     articleCount = 0;
     total = 0;
+    priceStikeOut(basket);
     totalCheckout(basket);
 }
 
@@ -206,6 +207,7 @@ function removeItem(event){
             basket.splice(index, 1);
         }  
     }*/
+    priceStikeOut(newBasket);
     localStorage.setItem('basket', JSON.stringify(newBasket));//update localStorage
     window.location.reload();//refresh
 }
