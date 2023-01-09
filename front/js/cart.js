@@ -142,16 +142,34 @@ const displayArtCnt = document.getElementById('totalQuantity');
 const displayTotalPrice = document.getElementById('totalPrice');
 
 /**
+ * This function go fetch a product details to be passed to function totalCheckout
+ * in order to display and do the math with cart articles count and total price
+ * @param {object of products returned by API} i 
+ * @returns (hash) product details
+ */
+const getPrice = async (i) => {
+    return fetch(`http://localhost:3000/api/products/${i.id}`)
+    .then(function(resultSet) {
+        if (resultSet.ok) {
+        return resultSet.json();
+        }
+    })
+    .catch(function(err) {
+        console.log(err);
+    }); 
+}
+/**
  * does the math in order to display the number of items in the cart as well as teh total price tag 
  * @param (collection of objects) basket
  * @returns items number in cart and total price
  */
-function totalCheckout(basket){
+async function totalCheckout(basket){
     articleCount = 0;
     total = 0;
     for (let i of basket){
         articleCount += +i.qty;
-        total += (+i.qty * +i.price);
+        let kanap = await getPrice(i);
+        total += (+i.qty * +kanap.price);
     }
     displayArtCnt.textContent = articleCount;
     displayTotalPrice.textContent = total;
@@ -182,12 +200,12 @@ const updateArtQty =  event => {
         }
     }
     //push to localStorage
+    priceStikeOut(basket);
     localStorage.setItem('basket', JSON.stringify(basket));
     
     //new call of totalCheckout to display the updated price tag 
     articleCount = 0;
     total = 0;
-    priceStikeOut(basket);
     totalCheckout(basket);
 }
 

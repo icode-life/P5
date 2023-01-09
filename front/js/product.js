@@ -78,6 +78,16 @@ function getBasket(){
 }
 
 /**
+ * this function strips the price from the basket.
+ * the purpose is for the function to be called before updating localStorage so that the user cannot alter the price.
+ * @param {collection of object} basket 
+ */
+function priceStikeOut(basket){
+    for (let item of basket){
+        delete item.price;
+    }
+}
+/**
  * this function pushes the updated basket of items to localStorage
  * @param {collection of objects} basket 
  */
@@ -114,6 +124,7 @@ function checkProduct(){
     }else{
       basket.push(article);
     }
+    priceStikeOut(basket);
     updateCart(basket);
   }
 }
