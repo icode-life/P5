@@ -166,9 +166,9 @@ const getPrice = async (i) => {
 async function totalCheckout(basket){
     articleCount = 0;
     total = 0;
-    for (let i of basket){
+    for (const i of basket){
         articleCount += +i.qty;
-        let kanap = await getPrice(i);
+        const kanap = await getPrice(i);
         total += (+i.qty * +kanap.price);
     }
     displayArtCnt.textContent = articleCount;
@@ -328,5 +328,3 @@ const placeOrder = (event) => {
 //add event listener call to action
 const order = document.getElementById('order');
 order.addEventListener('click', placeOrder);
-
-
