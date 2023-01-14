@@ -110,7 +110,7 @@ function checkProduct(){
     color: color.value
   };
 
-  if (article){
+  if (article.qty !=='0' && article.color !== ""){
     let pickedAlready = basket.find(item => item.id == article.id && item.color == article.color);
     if (pickedAlready !== undefined){
       //gestion des quantités -> conversion des strings reçues en type Number : var temp
