@@ -3,6 +3,9 @@ const url = window.location.search;
 const params = new URLSearchParams(url);
 const productId = params.get('id');
 
+
+//const productId = params.get('id');
+
 //with the ID fetched from url, call the API to get the specifics of the product
 async function getProduct(id) {
     return fetch(`http://localhost:3000/api/products/${id}`)
@@ -13,6 +16,7 @@ async function getProduct(id) {
   })
   .catch(function(err) {
     console.log(err);
+    alert('Nous rencontrons actuellement un souci. Veuillez rafraîchir la page, ou réessayer plus tard.')
   });
 }
 
