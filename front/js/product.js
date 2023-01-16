@@ -121,8 +121,7 @@ function checkProduct(){
         if (pickedAlready !== undefined){
           //gestion des quantités -> conversion des strings reçues en type Number : var temp
           //afin d'éviter les concaténations de chaines au lieu d'opération arithmétique sur les quantités
-          //re-cast en string (je pense optionnel mais par sécurité je l'ai fait)
-          if (+pickedAlready.qty + +article.qty <= 100){
+          if (Number(pickedAlready.qty) + Number(article.qty) <= 100){
             let result = +pickedAlready.qty + +article.qty;
             pickedAlready.qty = result;
           }else{
