@@ -116,9 +116,7 @@ function checkProduct(){
       //gestion des quantités -> conversion des strings reçues en type Number : var temp
       //afin d'éviter les concaténations de chaines au lieu d'opération arithmétique sur les quantités
       //re-cast en string (je pense optionnel mais par sécurité je l'ai fait)
-      let temp1 = Number(pickedAlready.qty);
-      let temp2 = Number(article.qty);
-      let result = temp1 + temp2;
+      let result = +pickedAlready.qty + +article.qty;
       pickedAlready.qty = result;
       pickedAlready.qty.toString();
     }else{
