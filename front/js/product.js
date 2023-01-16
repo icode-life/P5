@@ -124,11 +124,13 @@ function checkProduct(){
           if (Number(pickedAlready.qty) + Number(article.qty) <= 100){
             let result = +pickedAlready.qty + +article.qty;
             pickedAlready.qty = result;
+            alert('Article déjà présent dans le panier. ATTENTION, nous avons mis à jour la quantité demandée.')
           }else{
             alert('la quantité choisie ajoutée à la quantité déjà présente dans votre panier, dépasse la quantité maximale autorisée');
           }
         }else{
           basket.push(article);
+          alert('Article correctement ajouté à votre panier');
         }
         priceStikeOut(basket);
         updateCart(basket);

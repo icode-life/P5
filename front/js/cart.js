@@ -56,7 +56,7 @@ function addingMissingSpecifics(basket){
  */
 function priceStikeOut(basket){
     for (let item of basket){
-        delete item.price;
+            delete item.price;   
     }
 }
 
@@ -217,9 +217,17 @@ function removeItem(event){
         const article = event.target.closest('.cart__item');
         const dataId = article.dataset.id;
         const dataColor = article.dataset.color;
-        const newBasket = basket.filter( art => (art.id !== dataId && art.color !== dataColor)); //parenthèses de fct -> pas besoin de return ni de semicolon
-        priceStikeOut(newBasket);
-        localStorage.setItem('basket', JSON.stringify(newBasket));//update localStorage
+
+        //trash recherche et selectionne l'item dans basket qui matche la selection à supprimer
+        const trash = basket.filter( art => (art.id === dataId && art.color === dataColor));
+        for (const item of basket){
+            if(trash[0].id === item.id && trash[0].color === item.color){
+                const index = basket.indexOf(item);
+                basket.splice(index, 1);
+            }
+        } 
+        priceStikeOut(basket);
+        localStorage.setItem('basket', JSON.stringify(basket));//update localStorage
         window.location.reload();//refresh
     }
 }
