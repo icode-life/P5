@@ -23,6 +23,8 @@ async function getProduct(id) {
  * @returns display the product details in product.html 
  */
 function displayProductSpecs(product){
+    //ajout du nom de produit dans l'onglet du navigateur
+    document.title = product.name;
     //fetch le node par une autre méthode car classname ne renvoie pas l'élément directement.
     //document.querySelector renvoie bien le node
     //picDiv = élément dans lequel je vais insérer le reste
