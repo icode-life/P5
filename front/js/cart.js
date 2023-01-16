@@ -209,25 +209,19 @@ const updateArtQty =  event => {
     totalCheckout(basket);
 }
 
-
-
 //cart item deletion
 function removeItem(event){
     //recherche de l'id et couleur liée à l'event
-    const article = event.target.closest('.cart__item');
-    const dataId = article.dataset.id;
-    const dataColor = article.dataset.color;
-    const newBasket = basket.filter( art => (art.id !== dataId && art.color !== dataColor)); //parenthèses de fct -> pas besoin de return ni de semicolon
-    //suppression de l'item via splice() car pas moyen avec filter()
-    /*for (let item of basket){
-        if (item.id === dataId && item.color === dataColor){ //recherche dans le panier de l'item à supprimer sur base couleur et id
-            const index = basket.indexOf(item);//recherche de l'index pour le passer à splice()
-            basket.splice(index, 1);
-        }  
-    }*/
-    priceStikeOut(newBasket);
-    localStorage.setItem('basket', JSON.stringify(newBasket));//update localStorage
-    window.location.reload();//refresh
+    const okay = confirm("êtes-vous certain de vouloir supprimer l'article?");
+    if (okay){
+        const article = event.target.closest('.cart__item');
+        const dataId = article.dataset.id;
+        const dataColor = article.dataset.color;
+        const newBasket = basket.filter( art => (art.id !== dataId && art.color !== dataColor)); //parenthèses de fct -> pas besoin de return ni de semicolon
+        priceStikeOut(newBasket);
+        localStorage.setItem('basket', JSON.stringify(newBasket));//update localStorage
+        window.location.reload();//refresh
+    }
 }
 
 //Regexs definition
