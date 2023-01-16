@@ -112,19 +112,29 @@ function checkProduct(){
     color: color.value
   };
 
-  if (article.qty !=='0' && article.color !== ""){
-    let pickedAlready = basket.find(item => item.id == article.id && item.color == article.color);
-    if (pickedAlready !== undefined){
-      //gestion des quantités -> conversion des strings reçues en type Number : var temp
-      //afin d'éviter les concaténations de chaines au lieu d'opération arithmétique sur les quantités
-      //re-cast en string (je pense optionnel mais par sécurité je l'ai fait)
-      let result = +pickedAlready.qty + +article.qty;
-      pickedAlready.qty = result;
-      pickedAlready.qty.toString();
-    }else{
-      basket.push(article);
-    }
-    priceStikeOut(basket);
-    updateCart(basket);
+  if (article.qty < 0 || article.qty > 100){
+    alert('Veuillez ajuster la quantité entre 1 et 100');
+    article.qty = 0;
+  } else {
+      if (article.qty !=='0' && article.color !== ""){
+        let pickedAlready = basket.find(item => item.id == article.id && item.color == article.color);
+        if (pickedAlready !== undefined){
+          //gestion des quantités -> conversion des strings reçues en type Number : var temp
+          //afin d'éviter les concaténations de chaines au lieu d'opération arithmétique sur les quantités
+          //re-cast en string (je pense optionnel mais par sécurité je l'ai fait)
+          if (+pickedAlready.qty + +article.qty <= 100){
+            let result = +pickedAlready.qty + +article.qty;
+            pickedAlready.qty = result;
+          }else{
+            alert('la quantité choisie ajoutée à la quantité déjà présente dans votre panier, dépasse la quantité maximale autorisée');
+          }
+        }else{
+          basket.push(article);
+        }
+        priceStikeOut(basket);
+        updateCart(basket);
+      }
   }
+
+  
 }
