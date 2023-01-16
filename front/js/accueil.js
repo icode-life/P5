@@ -11,6 +11,7 @@ async function getKanaps() {
   })
   .catch(function(err) {
     console.log(err);
+    alert('Nous rencontrons actuellement un souci technique. Toutes nos excuses. Veuillez réessayer plus tard.');
   });
 }
 
