@@ -196,7 +196,11 @@ const updateArtQty =  event => {
     //update basket with new quantity selected(live - not yet in localStorage)
     for (let item of basket){
         if (item.id == dataId && item.color == dataColor) {
+            if (newQty + item.qty < 101){
             item.qty = newQty;
+            }else{
+                alert("la quantité présente dans le panier ne permet pas d'ajouter ce nombre d'articles")
+            }
         }
     }
     //push to localStorage

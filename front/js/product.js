@@ -138,6 +138,8 @@ function checkProduct(){
         }
         priceStikeOut(basket);
         updateCart(basket);
+      }else{
+        alert("veuillez choisir une quantité ainsi qu'une couleur");
       }
   }
 
