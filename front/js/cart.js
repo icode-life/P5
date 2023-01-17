@@ -318,7 +318,7 @@ const placeOrder = (event) => {
         products.push(article.id);
     }
     //préparation des data à envouer à l'API
-    if (contact.firstName !== undefined && contact.lastName !== undefined && contact.address !== undefined && contact.city !== undefined && contact.email !== undefined){
+    if (contact.firstName !== undefined && contact.firstName.length > 0 && contact.lastName !== undefined && contact.lastName.length > 0 && contact.address !== undefined && contact.address.length > 0 && contact.city !== undefined && contact.city.length > 0 && contact.email !== undefined){
         let data = {contact, products};
         fetch('http://localhost:3000/api/products/order', {
             method: 'POST', 
@@ -330,7 +330,7 @@ const placeOrder = (event) => {
             document.location.href=`./confirmation.html?orderId=${data.orderId}`
         })
     }else{
-        alert("Les champs du formulaire ne sont pas valablement remplis");
+        alert("Les champs du formulaire ne sont pas valablement remplis. Il est nécessaire d'avoir au moins un caractère dans les champs");
     }
 }
 
