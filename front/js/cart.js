@@ -300,6 +300,7 @@ email.addEventListener('keyup', event => {
         event.target.setAttribute('style', 'background-color: red');
         document.getElementById('emailErrorMsg').textContent = 'Veuillez vérifier que la donnée introduite dans le champ respecte bien les critères';
     }});
+    console.log(contact);
 
 /**
  * function preps the product array of IDs compliant with API requirements
@@ -317,7 +318,7 @@ const placeOrder = (event) => {
         products.push(article.id);
     }
     //préparation des data à envouer à l'API
-    if (contact.firstName && contact.lastName && contact.address && contact.city && contact.email){
+    if (contact.firstName !== undefined && contact.lastName !== undefined && contact.address !== undefined && contact.city !== undefined && contact.email !== undefined){
         let data = {contact, products};
         fetch('http://localhost:3000/api/products/order', {
             method: 'POST', 
@@ -328,6 +329,8 @@ const placeOrder = (event) => {
         .then((data) => {
             document.location.href=`./confirmation.html?orderId=${data.orderId}`
         })
+    }else{
+        alert("Les champs du formulaire ne sont pas valablement remplis");
     }
 }
 
